@@ -39,115 +39,117 @@ Ga.sieb.taca <- terra::rast("~/uomShare/wergProj/Climate_Reveg_D5/MW_Species Map
 plot(Al.vertCC90.taca)
 plot(Al.vert.sdm)
 origin(Al.vertCC90.taca)
-Al.vertCC90.sdm_ext = resample(Al.vertCC90.sdm, Al.vertCC90.taca)
-diff_CCtaca_CCSDM = Al.vertCC90.taca - Al.vertCC90.sdm_ext
-table(values(fdiff))
-plot(diff)
-plot(fdiff)
+#Al.vert.sdm_ext = resample(Al.vert.sdm, Al.vertCC90.taca)
+diff_Al.vert_MW = Al.vert.taca - Al.vertCC90.taca
+table(values(diff_Al.vert_MW))
+plot(diff_Al.vert_MW)
 
 Al.vert_CCsdm <- ggplot() +
   geom_spatraster(data = Al.vertCC90.sdm)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Allocasuarina verticillata 2090 climate SDM")
+  labs(fill = "Climate suitability", title = "Allocasuarina verticillata 2090 climate SDM")
 
 Al.vert_sdm <- ggplot() +
   geom_spatraster(data = Al.vert.sdm)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Allocasuarina verticillata current climate SDM")
+  labs(fill = "Climate suitability", title = "Allocasuarina verticillata current climate SDM")
 
 Al.vert_CCtaca <- ggplot() +
   geom_spatraster(data = Al.vertCC90.taca)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Allocasuarina verticillata 2090 climate TACA")
+  labs(fill = "Climate suitability", title = "Allocasuarina verticillata 2090 climate TACA")
 
 Al.vert_taca <- ggplot() +
   geom_spatraster(data = Al.vert.taca)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Allocasuarina verticillata current climate TACA")
+  labs(fill = "Climate suitability", title = "Allocasuarina verticillata current climate TACA")
 
-Al.vertCC90.sdm_ext = resample(Al.vertCC90.sdm, Al.vertCC90.taca)
-diff_CCtaca_CCSDM = Al.vertCC90.taca - Al.vertCC90.sdm_ext
-table(values(diff_CCtaca_CCSDM))
-
-Al.vert_Diff_CC <- ggplot() +
-  geom_spatraster(data = diff_CCtaca_CCSDM)+
+diff_Al.vert_MW_taca = Al.vert.taca - Al.vertCC90.taca
+Al.vert_Diff_taca <- ggplot() +
+  geom_spatraster(data = diff_Al.vert_MW_taca)+
   scale_fill_whitebox_c(
-    palette = "bl_yl_rd", direction = 1, limits=c(0,1),
+    palette = "bl_yl_rd", direction = 1, limits=c(),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Allocasuarina verticillata 2090 model difference")
+  labs(fill = "Climate suitability", title = "Allocasuarina verticillata Taca model difference")
 
-Al.vert.sdm_ext = resample(Al.vert.sdm, Al.vert.taca)
-diff_taca_SDM = Al.vert.taca - Al.vert.sdm_ext
-
-Al.vert_Diff_current <- ggplot() +
-  geom_spatraster(data = diff_taca_SDM)+
+diff_Al.vert_MW_SDM = Al.vert.sdm - Al.vertCC90.sdm
+Al.vert_Diff_sdm <- ggplot() +
+  geom_spatraster(data = diff_Al.vert_MW_SDM)+
   scale_fill_whitebox_c(
-    palette = "bl_yl_rd", direction = 1, limits=c(0,1),
+    palette = "bl_yl_rd", direction = 1, limits=c(),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Allocasuarina verticillata current model difference")
+  labs(fill = "Climate suitability", title = "Allocasuarina verticillata SDM model difference")
 
-grid.arrange(Al.vert_sdm, Al.vert_CCsdm, Al.vert_taca, Al.vert_CCtaca, Al.vert_Diff_current, Al.vert_Diff_CC, nrow = 3)
+grid.arrange(Al.vert_sdm, Al.vert_taca, Al.vert_CCsdm, Al.vert_CCtaca, Al.vert_Diff_sdm, Al.vert_Diff_taca, nrow = 3)
 
 Ga.sieb_CCsdm <- ggplot() +
   geom_spatraster(data = Ga.siebCC90.sdm)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Gahnia sieberiana 2090 climate SDM")
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana 2090 climate SDM")
 
 Ga.sieb_sdm <- ggplot() +
   geom_spatraster(data = Ga.sieb.sdm)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Gahnia sieberiana current climate SDM")
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana current climate SDM")
 
 Ga.sieb_CCtaca <- ggplot() +
   geom_spatraster(data = Ga.siebCC90.taca)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Gahnia sieberiana 2090 climate TACA")
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana 2090 climate TACA")
 
 Ga.sieb_taca <- ggplot() +
   geom_spatraster(data = Ga.sieb.taca)+
   scale_fill_terrain_c(direction = 1, limits=c(0,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Gahnia sieberiana current climate TACA")
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana current climate TACA")
 
-Ga.siebCC90.sdm_ext = resample(Ga.siebCC90.sdm, Ga.siebCC90.taca)
-Ga.sieb_diff_CCtaca_CCSDM = Ga.siebCC90.taca - Ga.siebCC90.sdm_ext
-table(values(Ga.sieb_diff_CCtaca_CCSDM))
-
-Ga.sieb_Diff_CC <- ggplot() +
-  geom_spatraster(data = Ga.sieb_diff_CCtaca_CCSDM)+
+diff_Ga.sieb_MW_taca = Ga.sieb.taca - Ga.siebCC90.taca
+Ga.sieb_Diff_taca <- ggplot() +
+  geom_spatraster(data = diff_Ga.sieb_MW_taca)+
   scale_fill_whitebox_c(
-    palette = "bl_yl_rd", direction = 1, limits=c(0,1),
+    palette = "bl_yl_rd", direction = 1, limits=c(),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Gahnia sieberiana 2090 model difference")
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana TACA model difference")
 
-Ga.sieb.sdm_ext = resample(Ga.sieb.sdm, Ga.sieb.taca)
-Ga.sieb_diff_taca_SDM = Ga.sieb.taca - Ga.sieb.sdm_ext
-
-Ga.sieb_Diff_current <- ggplot() +
-  geom_spatraster(data = Ga.sieb_diff_taca_SDM)+
+diff_Ga.sieb_MW_sdm = Ga.sieb.sdm - Ga.siebCC90.sdm
+Ga.sieb_Diff_sdm <- ggplot() +
+  geom_spatraster(data = diff_Ga.sieb_MW_sdm)+
   scale_fill_whitebox_c(
-    palette = "bl_yl_rd", direction = 1, limits=c(0,1),
+    palette = "bl_yl_rd", direction = 1, limits=c(),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "Climate niche", title = "Gahnia sieberiana current model difference")
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana SDM model difference")
 
-grid.arrange(Ga.sieb_sdm, Ga.sieb_CCsdm, Ga.sieb_taca, Ga.sieb_CCtaca, Ga.sieb_Diff_current, Ga.sieb_Diff_CC, nrow = 3)
+grid.arrange(Ga.sieb_sdm, Ga.sieb_taca, Ga.sieb_CCsdm, Ga.sieb_CCtaca, Ga.sieb_Diff_sdm, Ga.sieb_Diff_taca, nrow = 3)
+
+Ga.sieb_Diff_sdm <- ggplot() +
+  geom_spatraster(data = diff_Ga.sieb_MW_sdm)+
+  scale_fill_whitebox_c(
+    palette = "bl_yl_rd", direction = 1, limits=c())+
+  geom_spatraster(data = diff_Ga.sieb_MW_taca)+
+  scale_fill_terrain_c()
+
+  scale_fill_whitebox_c(
+    palette = "bl_yl_rd", direction = 1, limits=c(),
+    labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "Climate suitability", title = "Gahnia sieberiana SDM model difference")
 
