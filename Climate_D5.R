@@ -19,6 +19,7 @@ library(ordinal)
 library(emmeans)
 library(gridExtra)
 library(grid)
+library(tidyr)
 
 ```
 
