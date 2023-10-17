@@ -853,8 +853,91 @@ E.camssp.cam_map <- grid.arrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, E.camss
                   E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 3, 
                   top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
                   layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)), left = yleft, bottom = bottom)
-E.camssp.cam_map2 <- annotate_figure(E.camssp.cam_map,
-                left = "c)                 b)                  a)    ")
+
+E.camssp.cam_map1 <- ggarrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
+E.camssp.cam_map2 <- ggarrange(E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
+E.camssp.cam_map3 <- ggarrange(E.camssp_taca, E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
+E.camssp.cam_map <- grid.arrange(E.camssp.cam_map1, E.camssp.cam_map2, E.camssp.cam_map3, nrow=3,
+                    top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
+                    left = yleft, bottom = bottom)
+ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/E.cam.ssp.cam_map.png', 
+       E.camssp.cam_map, device = "png", width = 20, height = 12, dpi = 300)
+
+#Eucalyptus camaldulensis models2
+E.camssp_CCsdm <- ggplot() +
+  geom_spatraster(data = E.camsspCC90.sdm)+
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
+E.camssp_sdm <- ggplot() +
+  geom_spatraster(data = E.camssp.sdm)+
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
+E.camssp_CCtaca <- ggplot() +
+  geom_spatraster(data = E.camsspCC90.taca)+
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+E.camssp_taca <- ggplot() +
+  geom_spatraster(data = E.camssp.taca)+
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+diff_E.camssp_MW_taca = E.camsspCC90.taca - E.camssp.taca
+E.camssp_Diff_taca <- ggplot() +
+  geom_spatraster(data = diff_E.camssp_MW_taca)+
+  scale_fill_whitebox_c(
+    palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
+    labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+diff_E.camssp_MW_sdm = E.camsspCC90.sdm - E.camssp.sdm
+E.camssp_Diff_sdm <- ggplot() +
+  geom_spatraster(data = diff_E.camssp_MW_sdm)+
+  scale_fill_whitebox_c(
+    palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
+    labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+E.camssp.SEACC90.sdm_proj <- terra::project(E.camssp.SEACC90.sdm, newcrs)
+E.camssp.SEA.sdm_proj <- terra::project(E.camssp.SEA.sdm, newcrs)
+E.camssp.SEACC90.sdm_crop <- crop(E.camssp.SEACC90.sdm_proj, extent)
+E.camssp.SEA.sdm_crop <- crop(E.camssp.SEA.sdm_proj, extent)
+E.camssp_SEA_sdm <- ggplot() +
+  geom_spatraster(data = E.camssp.SEA.sdm_crop)+
+  geom_sf(data = MW_bounddiss, fill = "NA", color = "black", size = 2)+
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+E.camssp_SEACC90_sdm <- ggplot() +
+  geom_spatraster(data = E.camssp.SEACC90.sdm_crop)+
+  geom_sf(data = MW_bounddiss, fill = "NA", color = "black", size = 2)+
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+# gridtext
+yleft = textGrob("Latitude", rot=90)
+bottom = textGrob("Longitude")
+#E.camssp.cam_map <- grid.arrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, E.camssp_taca, 
+                                 E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 3, 
+                                 top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
+                                 layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)), left = yleft, bottom = bottom)
+
+E.camssp.cam_map1 <- ggarrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
+E.camssp.cam_map2 <- ggarrange(E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
+E.camssp.cam_map3 <- ggarrange(E.camssp_taca, E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
+E.camssp.cam_map <- grid.arrange(E.camssp.cam_map1, E.camssp.cam_map2, E.camssp.cam_map3, nrow=3,
+                                 top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
+                                 left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/E.cam.ssp.cam_map.png', 
        E.camssp.cam_map, device = "png", width = 20, height = 12, dpi = 300)
 
