@@ -121,30 +121,26 @@ E.vim_CCsdm <- ggplot() +
   geom_spatraster(data = E.vimCC90.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 E.vim_sdm <- ggplot() +
   geom_spatraster(data = E.vim.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 E.vim_CCtaca <- ggplot() +
   geom_spatraster(data = E.vimCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 E.vim_taca <- ggplot() +
   geom_spatraster(data = E.vim.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_E.vim_MW_taca = E.vimCC90.taca - E.vim.taca
 E.vim_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_E.vim_MW_taca)+
@@ -152,9 +148,8 @@ E.vim_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_E.vim_MW_sdm = E.vimCC90.sdm - E.vim.sdm
 E.vim_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_E.vim_MW_sdm)+
@@ -162,9 +157,8 @@ E.vim_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 # Convert SEA data and crop 
 E.vim.SEACC90.sdm_proj <- terra::project(E.vim.SEACC90.sdm, newcrs)
 E.vim.SEA.sdm_proj <- terra::project(E.vim.SEA.sdm, newcrs)
@@ -174,20 +168,22 @@ E.vim_SEA_sdm <- ggplot() +
   geom_spatraster(data = E.vim.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 E.vim_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = E.vim.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-E.vim_map <- grid.arrange(E.vim_SEA_sdm, E.vim_SEACC90_sdm, E.vim_sdm, E.vim_CCsdm, E.vim_Diff_sdm, E.vim_taca, 
-                          E.vim_CCtaca, E.vim_Diff_taca, nrow = 3, 
-                          top = textGrob("Eucalyptus viminalis",gp=gpar(fontsize=16,font=3)),
-                          layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+yleft = textGrob("Latitude", rot=90, gp = gpar(fontsize = 15))
+bottom = textGrob("Longitude", gp = gpar(fontsize = 15))
+E.vim_map1 <- ggarrange(E.vim_SEA_sdm, E.vim_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+E.vim_map2 <- ggarrange(E.vim_sdm, E.vim_CCsdm, E.vim_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+E.vim_map3 <- ggarrange(E.vim_taca, E.vim_CCtaca, E.vim_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+E.vim_map <- grid.arrange(E.vim_map1, E.vim_map2, E.vim_map3, nrow=3,
+                           top = textGrob("Eucalyptus viminalis",gp=gpar(fontsize=16,font=3)),
+                           left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/E.vim_map_map.png', 
        E.vim_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -196,30 +192,26 @@ Ac.mel_CCsdm <- ggplot() +
   geom_spatraster(data = Ac.melCC90.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mel_sdm <- ggplot() +
   geom_spatraster(data = Ac.mel.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mel_CCtaca <- ggplot() +
   geom_spatraster(data = Ac.melCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mel_taca <- ggplot() +
   geom_spatraster(data = Ac.mel.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.mel_MW_taca = Ac.melCC90.taca - Ac.mel.taca
 Ac.mel_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_Ac.mel_MW_taca)+
@@ -227,9 +219,8 @@ Ac.mel_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.mel_MW_sdm = Ac.melCC90.sdm - Ac.mel.sdm
 Ac.mel_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_Ac.mel_MW_sdm)+
@@ -237,9 +228,8 @@ Ac.mel_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 # Convert SEA data and crop 
 Ac.mel.SEACC90.sdm_proj <- terra::project(Ac.mel.SEACC90.sdm, newcrs)
 Ac.mel.SEA.sdm_proj <- terra::project(Ac.mel.SEA.sdm, newcrs)
@@ -249,20 +239,20 @@ Ac.mel_SEA_sdm <- ggplot() +
   geom_spatraster(data = Ac.mel.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mel_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = Ac.mel.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-Ac.mel_map <- grid.arrange(Ac.mel_SEA_sdm, Ac.mel_SEACC90_sdm, Ac.mel_sdm, Ac.mel_CCsdm, Ac.mel_Diff_sdm, Ac.mel_taca, 
-                           Ac.mel_CCtaca, Ac.mel_Diff_taca, nrow = 3, 
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+Ac.mel_map1 <- ggarrange(Ac.mel_SEA_sdm, Ac.mel_SEACC90_sdm, nrow = 1, hjust = 0.9, ncol = 3, labels = c("a)")) 
+Ac.mel_map2 <- ggarrange(Ac.mel_sdm, Ac.mel_CCsdm, Ac.mel_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+Ac.mel_map3 <- ggarrange(Ac.mel_taca, Ac.mel_CCtaca, Ac.mel_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+Ac.mel_map <- grid.arrange(Ac.mel_map1, Ac.mel_map2, Ac.mel_map3, nrow=3,
                            top = textGrob("Acacia melanoxylon",gp=gpar(fontsize=16,font=3)),
-                           layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+                           left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/Ac.mel_map.png', 
        Ac.mel_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -271,30 +261,26 @@ Ac.mea_CCsdm <- ggplot() +
   geom_spatraster(data = Ac.meaCC90.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mea_sdm <- ggplot() +
   geom_spatraster(data = Ac.mea.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mea_CCtaca <- ggplot() +
   geom_spatraster(data = Ac.meaCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mea_taca <- ggplot() +
   geom_spatraster(data = Ac.mea.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.mea_MW_taca = Ac.meaCC90.taca - Ac.mea.taca
 Ac.mea_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_Ac.mea_MW_taca)+
@@ -302,9 +288,8 @@ Ac.mea_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.mea_MW_sdm = Ac.meaCC90.sdm - Ac.mea.sdm
 Ac.mea_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_Ac.mea_MW_sdm)+
@@ -312,9 +297,8 @@ Ac.mea_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 # Convert SEA data and crop 
 Ac.mea.SEACC90.sdm_proj <- terra::project(Ac.mea.SEACC90.sdm, newcrs)
 Ac.mea.SEA.sdm_proj <- terra::project(Ac.mea.SEA.sdm, newcrs)
@@ -324,20 +308,20 @@ Ac.mea_SEA_sdm <- ggplot() +
   geom_spatraster(data = Ac.mea.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.mea_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = Ac.mea.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-Ac.mea_map <- grid.arrange(Ac.mea_SEA_sdm, Ac.mea_SEACC90_sdm, Ac.mea_sdm, Ac.mea_CCsdm, Ac.mea_Diff_sdm, Ac.mea_taca, 
-                           Ac.mea_CCtaca, Ac.mea_Diff_taca, nrow = 3, 
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+Ac.mea_map1 <- ggarrange(Ac.mea_SEA_sdm, Ac.mea_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+Ac.mea_map2 <- ggarrange(Ac.mea_sdm, Ac.mea_CCsdm, Ac.mea_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+Ac.mea_map3 <- ggarrange(Ac.mea_taca, Ac.mea_CCtaca, Ac.mea_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+Ac.mea_map <- grid.arrange(Ac.mea_map1, Ac.mea_map2, Ac.mea_map3, nrow=3,
                            top = textGrob("Acacia mearnsii",gp=gpar(fontsize=16,font=3)),
-                           layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+                           left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/Ac.mea_map.png', 
        Ac.mea_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -346,30 +330,26 @@ Ac.imp_CCsdm <- ggplot() +
   geom_spatraster(data = Ac.impCC90.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.imp_sdm <- ggplot() +
   geom_spatraster(data = Ac.imp.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.imp_CCtaca <- ggplot() +
   geom_spatraster(data = Ac.impCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.imp_taca <- ggplot() +
   geom_spatraster(data = Ac.imp.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.imp_MW_taca = Ac.impCC90.taca - Ac.imp.taca
 Ac.imp_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_Ac.imp_MW_taca)+
@@ -377,9 +357,8 @@ Ac.imp_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.imp_MW_sdm = Ac.impCC90.sdm - Ac.imp.sdm
 Ac.imp_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_Ac.imp_MW_sdm)+
@@ -387,9 +366,8 @@ Ac.imp_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.imp.SEACC90.sdm_proj <- terra::project(Ac.imp.SEACC90.sdm, newcrs)
 Ac.imp.SEA.sdm_proj <- terra::project(Ac.imp.SEA.sdm, newcrs)
 Ac.imp.SEACC90.sdm_crop <- crop(Ac.imp.SEACC90.sdm_proj, extent)
@@ -398,20 +376,20 @@ Ac.imp_SEA_sdm <- ggplot() +
   geom_spatraster(data = Ac.imp.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM currcurrent
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.imp_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = Ac.imp.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-Ac.imp_map <- grid.arrange(Ac.imp_SEA_sdm, Ac.imp_SEACC90_sdm, Ac.imp_sdm, Ac.imp_CCsdm, Ac.imp_Diff_sdm, Ac.imp_taca, 
-                           Ac.imp_CCtaca, Ac.imp_Diff_taca, nrow = 3, 
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+Ac.imp_map1 <- ggarrange(Ac.imp_SEA_sdm, Ac.imp_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+Ac.imp_map2 <- ggarrange(Ac.imp_sdm, Ac.imp_CCsdm, Ac.imp_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+Ac.imp_map3 <- ggarrange(Ac.imp_taca, Ac.imp_CCtaca, Ac.imp_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+Ac.imp_map <- grid.arrange(Ac.imp_map1, Ac.imp_map2, Ac.imp_map3, nrow=3,
                            top = textGrob("Acacia implexa",gp=gpar(fontsize=16,font=3)),
-                           layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+                           left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/Ac.imp_map.png', 
        Ac.imp_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -420,30 +398,26 @@ Ac.dea_CCsdm <- ggplot() +
   geom_spatraster(data = Ac.deaCC90.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.dea_sdm <- ggplot() +
   geom_spatraster(data = Ac.dea.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Ac.dea_CCtaca <- ggplot() +
   geom_spatraster(data = Ac.deaCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.dea_taca <- ggplot() +
   geom_spatraster(data = Ac.dea.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.dea_MW_taca = Ac.deaCC90.taca - Ac.dea.taca
 Ac.dea_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_Ac.dea_MW_taca)+
@@ -451,9 +425,8 @@ Ac.dea_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Ac.dea_MW_sdm = Ac.deaCC90.sdm - Ac.dea.sdm
 Ac.dea_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_Ac.dea_MW_sdm)+
@@ -461,9 +434,8 @@ Ac.dea_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.dea.SEACC90.sdm_proj <- terra::project(Ac.dea.SEACC90.sdm, newcrs)
 Ac.dea.SEA.sdm_proj <- terra::project(Ac.dea.SEA.sdm, newcrs)
 Ac.dea.SEACC90.sdm_crop <- crop(Ac.dea.SEACC90.sdm_proj, extent)
@@ -472,20 +444,20 @@ Ac.dea_SEA_sdm <- ggplot() +
   geom_spatraster(data = Ac.dea.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Ac.dea_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = Ac.dea.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-A.deal_map <- grid.arrange(Ac.dea_SEA_sdm, Ac.dea_SEACC90_sdm, Ac.dea_sdm, Ac.dea_CCsdm, Ac.dea_Diff_sdm, Ac.dea_taca, 
-                           Ac.dea_CCtaca, Ac.dea_Diff_taca, nrow = 3, 
-                           top = textGrob("Acacia dealbata",gp=gpar(fontsize=16,font=3)),
-                           layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+A.deal_map1 <- ggarrange(Ac.dea_SEA_sdm, Ac.dea_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+A.deal_map2 <- ggarrange(Ac.dea_sdm, Ac.dea_CCsdm, Ac.dea_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+A.deal_map3 <- ggarrange(Ac.dea_taca, Ac.dea_CCtaca, Ac.dea_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+A.deal_map <- grid.arrange(A.deal_map1, A.deal_map2, A.deal_map3, nrow=3,
+                            top = textGrob("Acacia dealbata",gp=gpar(fontsize=16,font=3)),
+                            left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/A.deal_map.png', 
        A.deal_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -494,30 +466,26 @@ Al.vert_CCsdm <- ggplot() +
   geom_spatraster(data = Al.vertCC90.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Al.vert_sdm <- ggplot() +
   geom_spatraster(data = Al.vert.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 Al.vert_CCtaca <- ggplot() +
   geom_spatraster(data = Al.vertCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Al.vert_taca <- ggplot() +
   geom_spatraster(data = Al.vert.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Al.vert_MW_taca = Al.vertCC90.taca - Al.vert.taca
 Al.vert_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_Al.vert_MW_taca)+
@@ -525,9 +493,8 @@ Al.vert_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_Al.vert_MW_sdm = Al.vertCC90.sdm - Al.vert.sdm
 Al.vert_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_Al.vert_MW_sdm)+
@@ -535,9 +502,8 @@ Al.vert_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Al.vert.SEACC90.sdm_proj <- terra::project(Al.vert.SEACC90.sdm, newcrs)
 Al.vert.SEA.sdm_proj <- terra::project(Al.vert.SEA.sdm, newcrs)
 Al.vert.SEACC90.sdm_crop <- crop(Al.vert.SEACC90.sdm_proj, extent)
@@ -546,20 +512,20 @@ Al.vert_SEA_sdm <- ggplot() +
   geom_spatraster(data = Al.vert.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 Al.vert_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = Al.vert.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-Al.vert_map <- grid.arrange(Al.vert_SEA_sdm, Al.vert_SEACC90_sdm, Al.vert_sdm, Al.vert_CCsdm, Al.vert_Diff_sdm, Al.vert_taca, 
-                            Al.vert_CCtaca, Al.vert_Diff_taca, nrow = 3, 
-                            top = textGrob("Allocasuarina verticillata",gp=gpar(fontsize=16,font=3)),
-                            layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+Al.vert_map1 <- ggarrange(Al.vert_SEA_sdm, Al.vert_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+Al.vert_map2 <- ggarrange(Al.vert_sdm, Al.vert_CCsdm, Al.vert_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+Al.vert_map3 <- ggarrange(Al.vert_taca, Al.vert_CCtaca, Al.vert_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+Al.vert_map <- grid.arrange(Al.vert_map1, Al.vert_map2, Al.vert_map3, nrow=3,
+                           top = textGrob("Allocasuarina verticillata",gp=gpar(fontsize=16,font=3)),
+                           left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/Al.vert_map.png', 
        Al.vert_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -569,29 +535,25 @@ B.spin_CCsdm <- ggplot() +
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
   labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 B.spin_sdm <- ggplot() +
   geom_spatraster(data = B.spin.sdm)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
 B.spin_CCtaca <- ggplot() +
   geom_spatraster(data = B.spinCC90.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 B.spin_taca <- ggplot() +
   geom_spatraster(data = B.spin.taca)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_B.spin_MW_taca = B.spinCC90.taca - B.spin.taca
 B.spin_Diff_taca <- ggplot() +
   geom_spatraster(data = diff_B.spin_MW_taca)+
@@ -599,9 +561,8 @@ B.spin_Diff_taca <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 diff_B.spin_MW_sdm = B.spinCC90.sdm - B.spin.sdm
 B.spin_Diff_sdm <- ggplot() +
   geom_spatraster(data = diff_B.spin_MW_sdm)+
@@ -609,9 +570,8 @@ B.spin_Diff_sdm <- ggplot() +
     palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
     labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Difference
+in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 B.spin.SEACC90.sdm_proj <- terra::project(B.spin.SEACC90.sdm, newcrs)
 B.spin.SEA.sdm_proj <- terra::project(B.spin.SEA.sdm, newcrs)
 B.spin.SEACC90.sdm_crop <- crop(B.spin.SEACC90.sdm_proj, extent)
@@ -620,20 +580,22 @@ B.spin_SEA_sdm <- ggplot() +
   geom_spatraster(data = B.spin.SEA.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
+  labs(fill = "Current
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 B.spin_SEACC90_sdm <- ggplot() +
   geom_spatraster(data = B.spin.SEACC90.sdm_crop)+
   scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
   theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))+
-  xlab("Longitude") + ylab("Latitude")
-B.spin_map <- grid.arrange(B.spin_SEA_sdm, B.spin_SEACC90_sdm, B.spin_sdm, B.spin_CCsdm, B.spin_Diff_sdm, B.spin_taca, 
-                           B.spin_CCtaca, B.spin_Diff_taca, nrow = 3, 
-                           top = textGrob("Bursaria spinosa",gp=gpar(fontsize=16,font=3)),
-                           layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)))
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+yleft = textGrob("Latitude", rot=90, gp = gpar(fontsize = 15))
+bottom = textGrob("Longitude", gp = gpar(fontsize = 15))
+B.spin_map1 <- ggarrange(B.spin_SEA_sdm, B.spin_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+B.spin_map2 <- ggarrange(B.spin_sdm, B.spin_CCsdm, B.spin_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+B.spin_map3 <- ggarrange(B.spin_taca, B.spin_CCtaca, B.spin_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
+B.spin_map <- grid.arrange(B.spin_map1, B.spin_map2, B.spin_map3, nrow=3,
+                            top = textGrob("Bursaria spinosa",gp=gpar(fontsize=16,font=3)),
+                            left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/B.spin_map.png', 
        B.spin_map, device = "png", width = 20, height = 12, dpi = 300)
 
@@ -696,11 +658,11 @@ Ga.sieb_SEACC90_sdm <- ggplot() +
   theme_minimal() +
   labs(fill = "2090
 climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-yleft = textGrob("Latitude", rot=90)
-bottom = textGrob("Longitude")
-Ga.sieb_map1 <- ggarrange(Ga.sieb_SEA_sdm, Ga.sieb_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
-Ga.sieb_map2 <- ggarrange(Ga.sieb_sdm, Ga.sieb_CCsdm, Ga.sieb_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
-Ga.sieb_map3 <- ggarrange(Ga.sieb_taca, Ga.sieb_CCtaca, Ga.sieb_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
+yleft = textGrob("Latitude", rot=90, gp = gpar(fontsize = 15))
+bottom = textGrob("Longitude", gp = gpar(fontsize = 15))
+Ga.sieb_map1 <- ggarrange(Ga.sieb_SEA_sdm, Ga.sieb_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+Ga.sieb_map2 <- ggarrange(Ga.sieb_sdm, Ga.sieb_CCsdm, Ga.sieb_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+Ga.sieb_map3 <- ggarrange(Ga.sieb_taca, Ga.sieb_CCtaca, Ga.sieb_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
 Ga.sieb_map <- grid.arrange(Ga.sieb_map1, Ga.sieb_map2, Ga.sieb_map3, nrow=3,
                           top = textGrob("Gahnia sieberiana",gp=gpar(fontsize=16,font=3)),
                           left = yleft, bottom = bottom)
@@ -766,11 +728,9 @@ O.lir_SEACC90_sdm <- ggplot() +
   theme_minimal() +
   labs(fill = "2090
 climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-yleft = textGrob("Latitude", rot=90)
-bottom = textGrob("Longitude")
-O.lir_map1 <- ggarrange(O.lir_SEA_sdm, O.lir_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
-O.lir_map2 <- ggarrange(O.lir_sdm, O.lir_CCsdm, O.lir_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
-O.lir_map3 <- ggarrange(O.lir_taca, O.lir_CCtaca, O.lir_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
+O.lir_map1 <- ggarrange(O.lir_SEA_sdm, O.lir_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+O.lir_map2 <- ggarrange(O.lir_sdm, O.lir_CCsdm, O.lir_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+O.lir_map3 <- ggarrange(O.lir_taca, O.lir_CCtaca, O.lir_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
 O.lir_map <- grid.arrange(O.lir_map1, O.lir_map2, O.lir_map3, nrow=3,
                                  top = textGrob("Olearia lirata",gp=gpar(fontsize=16,font=3)),
                                  left = yleft, bottom = bottom)
@@ -782,82 +742,82 @@ ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/O.lir_map.png',
        O.lir_map, device = "png", width = 20, height = 12, dpi = 300)
 
 #Eucalyptus camaldulensis models
-E.camssp_CCsdm <- ggplot() +
-  geom_spatraster(data = E.camsspCC90.sdm)+
-  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "SDM 2090
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
-E.camssp_sdm <- ggplot() +
-  geom_spatraster(data = E.camssp.sdm)+
-  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "SDM current
-climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
-E.camssp_CCtaca <- ggplot() +
-  geom_spatraster(data = E.camsspCC90.taca)+
-  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "TACA 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-E.camssp_taca <- ggplot() +
-  geom_spatraster(data = E.camssp.taca)+
-  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "TACA current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-diff_E.camssp_MW_taca = E.camsspCC90.taca - E.camssp.taca
-E.camssp_Diff_taca <- ggplot() +
-  geom_spatraster(data = diff_E.camssp_MW_taca)+
-  scale_fill_whitebox_c(
-    palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
-    labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "TACA difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-diff_E.camssp_MW_sdm = E.camsspCC90.sdm - E.camssp.sdm
-E.camssp_Diff_sdm <- ggplot() +
-  geom_spatraster(data = diff_E.camssp_MW_sdm)+
-  scale_fill_whitebox_c(
-    palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
-    labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "SDM difference
-in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-E.camssp.SEACC90.sdm_proj <- terra::project(E.camssp.SEACC90.sdm, newcrs)
-E.camssp.SEA.sdm_proj <- terra::project(E.camssp.SEA.sdm, newcrs)
-E.camssp.SEACC90.sdm_crop <- crop(E.camssp.SEACC90.sdm_proj, extent)
-E.camssp.SEA.sdm_crop <- crop(E.camssp.SEA.sdm_proj, extent)
-E.camssp_SEA_sdm <- ggplot() +
-  geom_spatraster(data = E.camssp.SEA.sdm_crop)+
-  geom_sf(data = MW_bounddiss, fill = "NA", color = "black", size = 2)+
-  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "SEA SDM current
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-E.camssp_SEACC90_sdm <- ggplot() +
-  geom_spatraster(data = E.camssp.SEACC90.sdm_crop)+
-  geom_sf(data = MW_bounddiss, fill = "NA", color = "black", size = 2)+
-  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
-  theme_minimal() +
-  labs(fill = "SEA SDM 2090
-climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+#E.camssp_CCsdm <- ggplot() +
+#  geom_spatraster(data = E.camsspCC90.sdm)+
+#  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "SDM 2090
+#climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
+#E.camssp_sdm <- ggplot() +
+#  geom_spatraster(data = E.camssp.sdm)+
+#  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "SDM current
+#climate suitability")+ theme(legend.key.width= unit(0.5, 'cm'))
+#E.camssp_CCtaca <- ggplot() +
+#  geom_spatraster(data = E.camsspCC90.taca)+
+#  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "TACA 2090
+#climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+#E.camssp_taca <- ggplot() +
+#  geom_spatraster(data = E.camssp.taca)+
+#  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "TACA current
+#climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+#diff_E.camssp_MW_taca = E.camsspCC90.taca - E.camssp.taca
+#E.camssp_Diff_taca <- ggplot() +
+#  geom_spatraster(data = diff_E.camssp_MW_taca)+
+#  scale_fill_whitebox_c(
+#    palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
+#    labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "TACA difference
+#in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+#diff_E.camssp_MW_sdm = E.camsspCC90.sdm - E.camssp.sdm
+#E.camssp_Diff_sdm <- ggplot() +
+#  geom_spatraster(data = diff_E.camssp_MW_sdm)+
+#  scale_fill_whitebox_c(
+#    palette = "bl_yl_rd", direction = -1, limits=c(-1,1),
+#    labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "SDM difference
+#in climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+#E.camssp.SEACC90.sdm_proj <- terra::project(E.camssp.SEACC90.sdm, newcrs)
+#E.camssp.SEA.sdm_proj <- terra::project(E.camssp.SEA.sdm, newcrs)
+#E.camssp.SEACC90.sdm_crop <- crop(E.camssp.SEACC90.sdm_proj, extent)
+#E.camssp.SEA.sdm_crop <- crop(E.camssp.SEA.sdm_proj, extent)
+#E.camssp_SEA_sdm <- ggplot() +
+#  geom_spatraster(data = E.camssp.SEA.sdm_crop)+
+#  geom_sf(data = MW_bounddiss, fill = "NA", color = "black", size = 2)+
+#  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "SEA SDM current
+#climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+#E.camssp_SEACC90_sdm <- ggplot() +
+#  geom_spatraster(data = E.camssp.SEACC90.sdm_crop)+
+#  geom_sf(data = MW_bounddiss, fill = "NA", color = "black", size = 2)+
+#  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+#  theme_minimal() +
+#  labs(fill = "SEA SDM 2090
+#climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
 # gridtext
-yleft = textGrob("Latitude", rot=90)
-bottom = textGrob("Longitude")
-E.camssp.cam_map <- grid.arrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, E.camssp_taca, 
-                  E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 3, 
-                  top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
-                  layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)), left = yleft, bottom = bottom)
+#yleft = textGrob("Latitude", rot=90)
+#bottom = textGrob("Longitude")
+#E.camssp.cam_map <- grid.arrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, E.camssp_taca, 
+#                  E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 3, 
+#                  top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
+#                  layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)), left = yleft, bottom = bottom)
 
-E.camssp.cam_map1 <- ggarrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
-E.camssp.cam_map2 <- ggarrange(E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
-E.camssp.cam_map3 <- ggarrange(E.camssp_taca, E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
-E.camssp.cam_map <- grid.arrange(E.camssp.cam_map1, E.camssp.cam_map2, E.camssp.cam_map3, nrow=3,
-                    top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
-                    left = yleft, bottom = bottom)
-ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/E.cam.ssp.cam_map.png', 
-       E.camssp.cam_map, device = "png", width = 20, height = 12, dpi = 300)
+#E.camssp.cam_map1 <- ggarrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
+#E.camssp.cam_map2 <- ggarrange(E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
+#E.camssp.cam_map3 <- ggarrange(E.camssp_taca, E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
+#E.camssp.cam_map <- grid.arrange(E.camssp.cam_map1, E.camssp.cam_map2, E.camssp.cam_map3, nrow=3,
+#                    top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
+#                    left = yleft, bottom = bottom)
+#ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/E.cam.ssp.cam_map.png', 
+#       E.camssp.cam_map, device = "png", width = 20, height = 12, dpi = 300)
 
 #Eucalyptus camaldulensis models2
 E.camssp_CCsdm <- ggplot() +
@@ -920,17 +880,13 @@ E.camssp_SEACC90_sdm <- ggplot() +
   theme_minimal() +
   labs(fill = "2090
 climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
-# gridtext
-yleft = textGrob("Latitude", rot=90)
-bottom = textGrob("Longitude")
 #E.camssp.cam_map <- grid.arrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, E.camssp_taca, 
 #                                 E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 3, 
 #                                 top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
 #                                 layout_matrix = rbind(c(1, 2, NA),c(3, 4, 5),c(6,7,8)), left = yleft, bottom = bottom)
-
-E.camssp.cam_map1 <- ggarrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, nrow = 1, ncol = 3, labels = c("a)")) 
-E.camssp.cam_map2 <- ggarrange(E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, nrow = 1, ncol = 3, labels = c("b)")) 
-E.camssp.cam_map3 <- ggarrange(E.camssp_taca, E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 1, ncol = 3, labels = c("c)"))
+E.camssp.cam_map1 <- ggarrange(E.camssp_SEA_sdm, E.camssp_SEACC90_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("a)")) 
+E.camssp.cam_map2 <- ggarrange(E.camssp_sdm, E.camssp_CCsdm, E.camssp_Diff_sdm, nrow = 1, ncol = 3, hjust = 0.9, labels = c("b)")) 
+E.camssp.cam_map3 <- ggarrange(E.camssp_taca, E.camssp_CCtaca, E.camssp_Diff_taca, nrow = 1, ncol = 3, hjust = 0.9, labels = c("c)"))
 E.camssp.cam_map <- grid.arrange(E.camssp.cam_map1, E.camssp.cam_map2, E.camssp.cam_map3, nrow=3,
                                  top = textGrob("Eucalyptus camaldulensis ssp camaldulensis",gp=gpar(fontsize=16,font=3)),
                                  left = yleft, bottom = bottom)
