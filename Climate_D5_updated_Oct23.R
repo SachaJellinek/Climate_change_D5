@@ -8,6 +8,7 @@ library(viridis)
 library(ggrepel)
 library(ggspatial)
 library(ggpubr)
+library(ozmaps)
 library(xlsx)
 library(s2)
 library(tiff)
@@ -22,7 +23,7 @@ library(grid)
 library(ggplot2)
 
 ## Climate change mapping data
-#This script explores data provided by Craig Nitchke looking at climate change projections
+#This script explores data provided by Craig Nitschke looking at climate change projections
 
 ## Loading data and shp files
 # Melb Water Boundary files
@@ -31,7 +32,7 @@ MW_bounddiss <- terra::vect("~/uomShare/wergProj/VegVisions/Mapping/MW Catchment
 # State boundary files
 States <- terra::vect("~/uomShare/wergProj/Climate_Reveg_D5/VIc_NSW_ACT_bound.shp")
 States_diss <- terra::vect("~/uomShare/wergProj/Climate_Reveg_D5/VIc_NSW_ACT_bound_diss.shp")
-
+Aus <- terra::vect("~/uomShare/wergProj/Climate_Reveg_D5/STE_2021_AUST_GDA94.shp")
 extent <- ext(-85046.55, 1653351, 5665321, 6868390)
 MWextent <- ext(244753.2, 426253.2, 5730022, 5879522)
 # CC_90 refers to climate change predictions to 2090 under RCP 8.5 using access models
@@ -892,6 +893,34 @@ E.camssp.cam_map <- grid.arrange(E.camssp.cam_map1, E.camssp.cam_map2, E.camssp.
                                  left = yleft, bottom = bottom)
 ggsave('~/uomShare/wergProj/Climate_Reveg_D5/Outputs/Review/TACA/E.cam.ssp.cam_map.png', 
        E.camssp.cam_map, device = "png", width = 20, height = 12, dpi = 300)
+
+## Aus map for journal
+inset <- ggplot() +
+  geom_sf(data = Aus, fill = "grey")+
+  geom_sf(data = States_diss, fill = "NA", color = "purple", size = 4)+
+  geom_sf(data = MW_bounddiss, fill = "NA", color = "red", size = 2)
+Ausmap <- ggplot() +  
+  geom_sf(data = States_diss, fill = "NA", color = "purple", size = 4)+
+  geom_sf(data = MW_bounddiss, fill = "NA", color = "red", size = 2)+
+  annotation_scale() + # add scale
+  annotation_north_arrow(location = "br", which_north = "true")
+print(inset, vp = viewport(0.770, 0.859, width = 0.25, height = 0.25))
+  
+  
+  ggsn::north(location = "topleft", scale = 0.8, symbol = 12,
+              x.min = 151.5, x.max = 152.5, y.min = -36, y.max = -38) +
+  ggsn::scalebar(location = "bottomleft", dist = 100,
+                 dist_unit = "km", transform = TRUE, 
+                 x.min=150.5, x.max=152, y.min=-38, y.max=-30,
+                 st.bottom = FALSE, height = 0.025,
+                 st.dist = 0.05, st.size = 3)
+  scale_fill_gradient(low = "white", high = "dark green", limits=c(0,1), labels = scales::label_number()) +
+  theme_minimal() +
+  labs(fill = "2090
+climate suitability") + theme(legend.key.width= unit(0.5, 'cm'))
+
+
+
 
 species_risk <- read.csv("~/uomShare/wergProj/Climate_Reveg_D5/Sp_risk.csv")
 reg_change <- read.csv("~/uomShare/wergProj/Climate_Reveg_D5/Reg_change.csv")
